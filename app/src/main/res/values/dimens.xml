@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="subtitle_padding">4dp</dimen>
+    <dimen name="box_padding">20dp</dimen>
+    <dimen name="shadow_elevation">40dp</dimen>
+
+    <item name="subtitle_font_size" type="integer">18</item>
+    <item name="title_font_size" type="integer">30</item>
+    <item name="title_letter_spacing" type="integer">10</item>
+
+    <dimen name="ripple_initial_radius">10dp</dimen>
+    <dimen name="max_ripple_radius">300dp</dimen>
+    <dimen name="ring_stroke_width">1.5dp</dimen>
+    <dimen name="sparkle_size">6dp</dimen>
+    <dimen name="sparkle_spread">100dp</dimen>
+
+    <dimen name="control_overlay_surface_elevation">0dp</dimen>
+    <dimen name="control_overlay_corner_radius">20dp</dimen>
+    <dimen name="control_overlay_surface_padding">16dp</dimen>
+    <dimen name="control_overlay_text_padding_horizontal">18dp</dimen>
+    <dimen name="control_overlay_text_padding_vertical">10dp</dimen>
+</resources>

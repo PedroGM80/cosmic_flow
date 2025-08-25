@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Cosmic Flow</string>
+    <string name="title_tilt_subtitle">Shaders • Partículas • Física • Gestos</string>
+    <string name="title_tilt_main_title">✨ Cosmic Flow ✨</string>
+    <string name="control_overlay_info_text">Toque para ONDAS ESPECTACULARES • Arrastra para atraer • Partículas: %d</string>
+</resources>
