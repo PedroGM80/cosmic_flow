@@ -19,5 +19,5 @@ internal fun noiseAngle(coordinateX: Float, coordinateY: Float, timeOffset: Floa
         sin(coordinateX * SINE_X_COORD_FACTOR + timeOffset * SINE_TIME_FACTOR_FOR_X) + sin(coordinateY * SINE_Y_COORD_FACTOR + timeOffset * SINE_TIME_FACTOR_FOR_Y)
     val cosineComponentSum =
         cos(coordinateX * COSINE_X_COORD_FACTOR + timeOffset * COSINE_TIME_FACTOR_FOR_X) + cos(coordinateY * COSINE_Y_COORD_FACTOR + timeOffset * COSINE_TIME_FACTOR_FOR_Y)
-    return atan2(sineComponentSum, cosineComponentSum).toFloat()
+    return atan2(sineComponentSum, cosineComponentSum)
 }
