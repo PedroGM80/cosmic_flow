@@ -1,6 +1,8 @@
 package dev.pgm.cosmic_flow.components
 
 import android.graphics.RuntimeShader
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -22,6 +24,7 @@ import kotlin.math.sin
 import kotlin.random.Random
 
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 internal fun MetaballsBackground(modifier: Modifier = Modifier) {
     LocalContext.current
@@ -44,7 +47,8 @@ internal fun MetaballsBackground(modifier: Modifier = Modifier) {
     val time by produceState(MetaballsDefaults.ANIMATION_INITIAL_VALUE) { // Use constant
         val startTime = System.nanoTime()
         while (isActive) {
-            value = (System.nanoTime() - startTime) / MetaballsDefaults.NANOS_TO_SECONDS // Use constant
+            value =
+                (System.nanoTime() - startTime) / MetaballsDefaults.NANOS_TO_SECONDS // Use constant
             withFrameNanos { /* Relaunch on next frame */ }
         }
     }
@@ -52,9 +56,10 @@ internal fun MetaballsBackground(modifier: Modifier = Modifier) {
     // Animate ball properties slowly
     val animationTime by produceState(MetaballsDefaults.ANIMATION_INITIAL_VALUE) { // Use constant
         val startTime = System.nanoTime()
-        while(isActive) {
+        while (isActive) {
             // Slow down overall animation by an additional factor (e.g., 10)
-            value = (System.nanoTime() - startTime).toFloat() / MetaballsDefaults.NANOS_TO_SECONDS / (MetaballsDefaults.ANIMATION_DURATION_MS / 1000f) // Adjusted for clarity
+            value =
+                (System.nanoTime() - startTime).toFloat() / MetaballsDefaults.NANOS_TO_SECONDS / (MetaballsDefaults.ANIMATION_DURATION_MS / 1000f) // Adjusted for clarity
             withFrameNanos { /* recompose */ }
         }
     }
@@ -64,12 +69,20 @@ internal fun MetaballsBackground(modifier: Modifier = Modifier) {
         balls = balls.mapIndexed { index, ball ->
             // Simple oscillation for x, y. Radius could also be animated.
             val baseSpeed = 0.2f // This could also be a constant
-            val speedFactor = (index % 2 + 1) * MetaballsDefaults.BALL_INITIAL_RANDOM_FACTOR // Use constant
-            val angleOffset = index * (kotlin.math.PI.toFloat() / (MetaballsDefaults.NUM_BALLS / 2f)) // Stagger movement patterns
+            val speedFactor =
+                (index % 2 + 1) * MetaballsDefaults.BALL_INITIAL_RANDOM_FACTOR // Use constant
+            val angleOffset =
+                index * (kotlin.math.PI.toFloat() / (MetaballsDefaults.NUM_BALLS / 2f)) // Stagger movement patterns
 
             floatArrayOf(
-                (MetaballsDefaults.BALL_INITIAL_RANDOM_FACTOR + sin(animationTime * baseSpeed * speedFactor + angleOffset) * 0.35f).coerceIn(MetaballsDefaults.BALL_POSITION_OFFSET, 1f - MetaballsDefaults.BALL_POSITION_OFFSET), // x
-                (MetaballsDefaults.BALL_INITIAL_RANDOM_FACTOR + kotlin.math.cos(animationTime * baseSpeed * speedFactor + angleOffset * 1.5f) * 0.35f).coerceIn(MetaballsDefaults.BALL_POSITION_OFFSET, 1f - MetaballsDefaults.BALL_POSITION_OFFSET), // y
+                (MetaballsDefaults.BALL_INITIAL_RANDOM_FACTOR + sin(animationTime * baseSpeed * speedFactor + angleOffset) * 0.35f).coerceIn(
+                    MetaballsDefaults.BALL_POSITION_OFFSET,
+                    1f - MetaballsDefaults.BALL_POSITION_OFFSET
+                ), // x
+                (MetaballsDefaults.BALL_INITIAL_RANDOM_FACTOR + kotlin.math.cos(animationTime * baseSpeed * speedFactor + angleOffset * 1.5f) * 0.35f).coerceIn(
+                    MetaballsDefaults.BALL_POSITION_OFFSET,
+                    1f - MetaballsDefaults.BALL_POSITION_OFFSET
+                ), // y
                 ball[2] // Keep radius for now, or animate it: (MetaballsDefaults.BALL_RADIUS_BASE + (sin(animationTime + angleOffset) * 0.05f + 0.05f)).coerceIn(0.1f, 0.25f)
             )
         }

@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import dev.pgm.cosmic_flow.config.SpectacularTouchRipplesDefaults
 import dev.pgm.cosmic_flow.models.SpectacularRipple
-import dev.pgm.cosmic_flow.utils.hsl
+import dev.pgm.cosmic_flow.utils.hslToColor
 import kotlinx.coroutines.isActive
 import kotlin.math.PI
 import kotlin.math.cos
@@ -68,7 +68,7 @@ internal fun SpectacularTouchRipples(modifier: Modifier, trigger: Int, center: O
 
                 if (radius > SpectacularTouchRipplesDefaults.MIN_EFFECTIVE_RADIUS && alpha > SpectacularTouchRipplesDefaults.MIN_EFFECTIVE_ALPHA) {
                     val ringHue = (ripple.hue + ring * SpectacularTouchRipplesDefaults.RING_HUE_RING_FACTOR + time * SpectacularTouchRipplesDefaults.RING_HUE_TIME_FACTOR) % SpectacularTouchRipplesDefaults.MAX_PROGRESS
-                    val color = hsl(ringHue, SpectacularTouchRipplesDefaults.RING_HSL_SATURATION, SpectacularTouchRipplesDefaults.RING_HSL_LIGHTNESS)
+                    val color = hslToColor(ringHue, SpectacularTouchRipplesDefaults.RING_HSL_SATURATION, SpectacularTouchRipplesDefaults.RING_HSL_LIGHTNESS)
 
                     // Onda principal con distorsión
                     val distortion = sin(time * SpectacularTouchRipplesDefaults.DISTORTION_TIME_FACTOR + ring * SpectacularTouchRipplesDefaults.DISTORTION_RING_FACTOR) * SpectacularTouchRipplesDefaults.DISTORTION_MULTIPLIER
@@ -135,7 +135,7 @@ internal fun SpectacularTouchRipples(modifier: Modifier, trigger: Int, center: O
                     brush = Brush.radialGradient(
                         colors = listOf(
                             Color.White.copy(alpha = explosionAlpha),
-                            hsl(ripple.hue, SpectacularTouchRipplesDefaults.EXPLOSION_HSL_SATURATION, SpectacularTouchRipplesDefaults.EXPLOSION_HSL_LIGHTNESS).copy(alpha = explosionAlpha * SpectacularTouchRipplesDefaults.EXPLOSION_CENTER_COLOR_ALPHA_MULTIPLIER),
+                            hslToColor(ripple.hue, SpectacularTouchRipplesDefaults.EXPLOSION_HSL_SATURATION, SpectacularTouchRipplesDefaults.EXPLOSION_HSL_LIGHTNESS).copy(alpha = explosionAlpha * SpectacularTouchRipplesDefaults.EXPLOSION_CENTER_COLOR_ALPHA_MULTIPLIER),
                             Color.Transparent
                         ),
                         center = ripple.center,
