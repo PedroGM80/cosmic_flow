@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
         // Enable edge-to-edge display
         enableEdgeToEdge()
 
-        // Ocultar status y nav bar
+        // Hide status and navigation bars
         WindowInsetsControllerCompat(window, window.decorView).let { controller ->
             controller.hide(WindowInsetsCompat.Type.systemBars())
             controller.systemBarsBehavior =

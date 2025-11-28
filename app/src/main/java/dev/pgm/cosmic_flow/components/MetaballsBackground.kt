@@ -23,7 +23,16 @@ import kotlinx.coroutines.isActive
 import kotlin.math.sin
 import kotlin.random.Random
 
-
+/**
+ * Renders an animated metaballs background using AGSL (Android Graphics Shading Language).
+ *
+ * Displays 4 animated metaballs that smoothly blend together, creating an organic,
+ * fluid visual effect. Each metaball oscillates in position over time.
+ *
+ * Requires Android 13 (Tiramisu) or higher for AGSL shader support.
+ *
+ * @param modifier The modifier to apply to the canvas.
+ */
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 internal fun MetaballsBackground(modifier: Modifier = Modifier) {

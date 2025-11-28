@@ -14,6 +14,17 @@ private const val COSINE_TIME_FACTOR_FOR_X =
 private const val COSINE_Y_COORD_FACTOR = 1.9f
 private const val COSINE_TIME_FACTOR_FOR_Y = 0.8f
 
+/**
+ * Generates a Perlin-style noise angle for flow field calculations.
+ *
+ * This function combines multiple sine and cosine waves with different frequencies
+ * to create a smooth, continuous noise field that varies over space and time.
+ *
+ * @param coordinateX The x-coordinate in the noise field.
+ * @param coordinateY The y-coordinate in the noise field.
+ * @param timeOffset The time offset for animation.
+ * @return An angle in radians representing the flow direction at the given position and time.
+ */
 internal fun noiseAngle(coordinateX: Float, coordinateY: Float, timeOffset: Float): Float {
     val sineComponentSum =
         sin(coordinateX * SINE_X_COORD_FACTOR + timeOffset * SINE_TIME_FACTOR_FOR_X) + sin(coordinateY * SINE_Y_COORD_FACTOR + timeOffset * SINE_TIME_FACTOR_FOR_Y)

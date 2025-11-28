@@ -20,16 +20,31 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import dev.pgm.cosmic_flow.R
 import dev.pgm.cosmic_flow.config.TitleTiltDefaults
 
-
+/**
+ * Renders an interactive 3D tilting title with shine animation.
+ *
+ * Displays the app title and subtitle with 3D rotation effects that respond to touch position.
+ * Features include:
+ * - 3D tilt effect based on touch position
+ * - Animated shine/spotlight effect using radial gradients
+ * - Blend mode effects for visual depth
+ *
+ * @param shineX The horizontal position of the shine effect (animated externally).
+ * @param touch The current touch position for tilt calculation, or null for no tilt.
+ */
 @Composable
 internal fun TitleTilt(shineX: Float, touch: Offset?) {
     val densityScale = LocalDensity.current.density
+    val subtitleDescription = stringResource(R.string.cd_subtitle)
+    val titleDescription = stringResource(R.string.cd_title)
 
     Text(
         text = stringResource(R.string.title_tilt_subtitle),
@@ -37,7 +52,11 @@ internal fun TitleTilt(shineX: Float, touch: Offset?) {
         color = Color.White.copy(alpha = TitleTiltDefaults.SUBTITLE_COLOR_ALPHA),
         fontWeight = FontWeight.Medium,
         textAlign = TextAlign.Center,
-        modifier = Modifier.padding(dimensionResource(R.dimen.subtitle_padding))
+        modifier = Modifier
+            .padding(dimensionResource(R.dimen.subtitle_padding))
+            .semantics {
+                contentDescription = subtitleDescription
+            }
     )
 
     Box(
@@ -76,6 +95,9 @@ internal fun TitleTilt(shineX: Float, touch: Offset?) {
                 textAlign = TextAlign.Center,
                 color = Color.White.copy(alpha = TitleTiltDefaults.TITLE_COLOR_ALPHA),
                 modifier = Modifier
+                    .semantics {
+                        contentDescription = titleDescription
+                    }
                     .graphicsLayer {
                         rotationX = rotationXDegrees
                         rotationY = rotationYDegrees

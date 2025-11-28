@@ -24,7 +24,21 @@ import kotlin.math.max
 import kotlin.math.sin
 import kotlin.random.Random
 
-
+/**
+ * Renders spectacular multi-layered touch ripple effects.
+ *
+ * Creates impressive visual feedback for touch interactions with features including:
+ * - Multiple expanding rings (3-7 per ripple)
+ * - Rotating sparkles around each ring (8 per ring)
+ * - High-frequency secondary waves
+ * - Central explosion effect with radial gradient
+ * - Distortion animations with time-based modulation
+ * - HSL color cycling for dynamic hue shifts
+ *
+ * @param modifier The modifier to apply to the canvas.
+ * @param trigger An incrementing counter that creates a new ripple when changed.
+ * @param center The center position of the ripple, or null to skip creating a ripple.
+ */
 @Composable
 internal fun SpectacularTouchRipples(modifier: Modifier, trigger: Int, center: Offset?) {
     var ripples by remember { mutableStateOf(listOf<SpectacularRipple>()) }
@@ -56,7 +70,7 @@ internal fun SpectacularTouchRipples(modifier: Modifier, trigger: Int, center: O
         ripples = ripples.map { ripple ->
             val baseProgress = ripple.progress
 
-            // Dibujar múltiples anillos con efectos
+            // Draw multiple rings with effects
             for (ring in 0 until ripple.rings) {
                 val ringDelay = ring * SpectacularTouchRipplesDefaults.RING_DELAY_FACTOR
                 val ringProgress = (baseProgress - ringDelay).coerceAtLeast(SpectacularTouchRipplesDefaults.RING_PROGRESS_MIN)
@@ -70,7 +84,7 @@ internal fun SpectacularTouchRipples(modifier: Modifier, trigger: Int, center: O
                     val ringHue = (ripple.hue + ring * SpectacularTouchRipplesDefaults.RING_HUE_RING_FACTOR + time * SpectacularTouchRipplesDefaults.RING_HUE_TIME_FACTOR) % SpectacularTouchRipplesDefaults.MAX_PROGRESS
                     val color = hslToColor(ringHue, SpectacularTouchRipplesDefaults.RING_HSL_SATURATION, SpectacularTouchRipplesDefaults.RING_HSL_LIGHTNESS)
 
-                    // Onda principal con distorsión
+                    // Main wave with distortion
                     val distortion = sin(time * SpectacularTouchRipplesDefaults.DISTORTION_TIME_FACTOR + ring * SpectacularTouchRipplesDefaults.DISTORTION_RING_FACTOR) * SpectacularTouchRipplesDefaults.DISTORTION_MULTIPLIER
                     drawCircle(
                         color = color.copy(alpha = alpha),
@@ -79,7 +93,7 @@ internal fun SpectacularTouchRipples(modifier: Modifier, trigger: Int, center: O
                         style = Stroke(width = (SpectacularTouchRipplesDefaults.STROKE_WIDTH_BASE - ring * SpectacularTouchRipplesDefaults.STROKE_WIDTH_RING_FACTOR).coerceAtLeast(SpectacularTouchRipplesDefaults.STROKE_WIDTH_MIN))
                     )
 
-                    // Glow exterior (radio seguro ≥ 1f)
+                    // Outer glow (safe radius ≥ 1f)
                     val glowR = max(SpectacularTouchRipplesDefaults.MIN_GLOW_RADIUS, radius * SpectacularTouchRipplesDefaults.GLOW_RADIUS_MULTIPLIER)
                     drawCircle(
                         brush = Brush.radialGradient(
@@ -94,7 +108,7 @@ internal fun SpectacularTouchRipples(modifier: Modifier, trigger: Int, center: O
                         center = ripple.center
                     )
 
-                    // Destellos giratorios
+                    // Rotating sparkles
                     for (sparkle in 0 until SpectacularTouchRipplesDefaults.NUM_SPARKLES) {
                         val sparkleAngle = time * SpectacularTouchRipplesDefaults.SPARKLE_TIME_FACTOR + sparkle * PI / (SpectacularTouchRipplesDefaults.NUM_SPARKLES / 2) + ring * SpectacularTouchRipplesDefaults.SPARKLE_ANGLE_RING_FACTOR
                         val sparkleRadius = radius * SpectacularTouchRipplesDefaults.SPARKLE_RADIUS_MULTIPLIER
@@ -110,7 +124,7 @@ internal fun SpectacularTouchRipples(modifier: Modifier, trigger: Int, center: O
                         )
                     }
 
-                    // Ondas secundarias de alta frecuencia
+                    // High-frequency secondary waves
                     for (wave in 1..SpectacularTouchRipplesDefaults.NUM_SECONDARY_WAVES) {
                         val waveRadius = radius + sin(time * SpectacularTouchRipplesDefaults.SECONDARY_WAVE_TIME_FACTOR + wave * SpectacularTouchRipplesDefaults.SECONDARY_WAVE_WAVE_FACTOR) * SpectacularTouchRipplesDefaults.SECONDARY_WAVE_RADIUS_OFFSET
                         drawCircle(
@@ -123,7 +137,7 @@ internal fun SpectacularTouchRipples(modifier: Modifier, trigger: Int, center: O
                 }
             }
 
-            // Explosión central inicial (radio seguro)
+            // Initial central explosion (safe radius)
             if (baseProgress < SpectacularTouchRipplesDefaults.EXPLOSION_PROGRESS_THRESHOLD) {
                 val explosionRadius = baseProgress * SpectacularTouchRipplesDefaults.EXPLOSION_RADIUS_FACTOR * ripple.intensity
                 val safeExplosion = max(SpectacularTouchRipplesDefaults.MIN_EXPLOSION_RADIUS, explosionRadius)

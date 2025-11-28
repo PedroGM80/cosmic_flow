@@ -27,11 +27,27 @@ import kotlin.math.min
 import kotlin.math.sin
 import kotlin.random.Random
 
-// ===== Constantes base para evitar números literales =====
+// ===== Base constants to avoid literal numbers =====
 private const val ZERO_FLOAT = 0f
 private const val ONE_FLOAT = 1f
 private const val ZERO_LONG: Long = 0L
 
+/**
+ * Renders an interactive particle field with physics simulation.
+ *
+ * Creates a dynamic particle system where particles flow through a noise-based field,
+ * respond to touch attraction, and emit particle bursts on tap. Features include:
+ * - Noise-based flow field for organic movement
+ * - Touch attraction with distance-based falloff
+ * - Tap burst effect (80 particles per tap)
+ * - Multi-layer glow rendering with additive blending
+ * - Velocity-based trail rendering
+ *
+ * @param modifier The modifier to apply to the canvas.
+ * @param count The number of particles in the field.
+ * @param touch The current touch position for attraction, or null if not touching.
+ * @param tapTrigger An incrementing counter that triggers particle bursts when changed.
+ */
 @Composable
 internal fun ParticleField(
     modifier: Modifier,
@@ -84,7 +100,7 @@ internal fun ParticleField(
     }
 
     Canvas(modifier) {
-        // Mantener dependencia a frame para forzar redraw sin usar una sola letra
+        // Maintain frame dependency to force redraw without using a single variable
         val _unusedFrameDependency = frameTimestampNanos
 
         val canvasWidth = size.width
@@ -243,7 +259,7 @@ internal fun ParticleField(
                 )
                 drawCircle(
                     color = particleColor.copy(alpha = ParticleFieldDefaults.GLOW_LAYER2_ALPHA_ENERGY_FACTOR * particle.energy),
-                    radius = glowBaseSize, // multiplicador implícito = ONE_FLOAT
+                    radius = glowBaseSize, // implicit multiplier = ONE_FLOAT
                     center = particle.offset
                 )
                 drawCircle(
