@@ -14,6 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import dev.pgm.cosmic_flow.components.ControlsOverlay
 import dev.pgm.cosmic_flow.components.FallbackGradientBackground
 import dev.pgm.cosmic_flow.components.MetaballsBackground
@@ -29,6 +32,17 @@ private const val INFINITE_TRANSITION_LABEL = "inf"
 private const val SHINE_ANIM_LABEL = "shine"
 private const val INITIAL_TAP_RIPPLE_TRIGGER = 0
 
+/**
+ * Main screen composable for the Cosmic Flow application.
+ *
+ * Displays an interactive particle field with metaballs background (on Android 13+),
+ * touch ripple effects, and an animated title. Responds to drag and tap gestures.
+ *
+ * @param modifier The modifier to apply to the screen container.
+ * @param particleCount The number of particles to render in the field. Default is 720.
+ * @param useShaderBackground Whether to use the AGSL shader background (requires Android 13+).
+ *                            Falls back to gradient background on older devices.
+ */
 @Composable
 fun CosmicFlowScreen(
     modifier: Modifier = Modifier,
@@ -37,6 +51,9 @@ fun CosmicFlowScreen(
 ) {
     var touch by remember { mutableStateOf<Offset?>(null) }
     var tapRippleTrigger by remember { mutableIntStateOf(INITIAL_TAP_RIPPLE_TRIGGER) }
+
+    val particleFieldDescription = stringResource(R.string.cd_particle_field)
+    val backgroundDescription = stringResource(R.string.cd_background)
 
     val inf = rememberInfiniteTransition(label = INFINITE_TRANSITION_LABEL)
     val shineX by inf.animateFloat(
@@ -50,7 +67,10 @@ fun CosmicFlowScreen(
         modifier
             .fillMaxSize()
             .background(Color.Black)
-            // DRAG continuo: actualiza 'touch' en tiempo real
+            .semantics {
+                contentDescription = particleFieldDescription
+            }
+            // Continuous DRAG: updates 'touch' in real-time
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragStart = { offset -> touch = offset },
@@ -62,7 +82,7 @@ fun CosmicFlowScreen(
                     onDragCancel = { touch = null }
                 )
             }
-            // TAP: solo para las ondas (ripple)
+            // TAP: only for ripple waves
             .pointerInput(Unit) {
                 detectTapGestures { pos ->
                     touch = pos
@@ -70,7 +90,13 @@ fun CosmicFlowScreen(
                 }
             }
     ) {
-        Box(Modifier.fillMaxSize()) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .semantics {
+                    contentDescription = backgroundDescription
+                }
+        ) {
             if (useShaderBackground && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 MetaballsBackground()
             } else {

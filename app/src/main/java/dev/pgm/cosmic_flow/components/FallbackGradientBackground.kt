@@ -23,6 +23,14 @@ import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.sin
 
+/**
+ * Renders an animated gradient background as a fallback for devices without AGSL support.
+ *
+ * Displays a radial gradient with an animated center that moves in a circular pattern,
+ * creating a smooth, organic glow effect without requiring shader support.
+ *
+ * Used on Android versions below Android 13 (Tiramisu).
+ */
 @Composable
 internal fun FallbackGradientBackground() {
     val infiniteTransition = rememberInfiniteTransition(
@@ -37,10 +45,10 @@ internal fun FallbackGradientBackground() {
     )
 
     Canvas(Modifier.fillMaxSize()) {
-        // Ángulo (Double) usando constantes del módulo y PI (no literal)
+        // Angle (Double) using module constants and PI (not literal)
         val animatedAngle = animationProgress * FallbackGradientDefaults.TWO_FACTOR_FLOAT * PI
 
-        // Centro animado del brillo
+        // Animated center of the glow
         val centerX = getCenterX(animatedAngle)
         val centerY = getCenterY(animatedAngle)
 

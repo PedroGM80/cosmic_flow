@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Cosmic Flow</string>
-    <string name="title_tilt_subtitle">Shaders • Partículas • Física • Gestos</string>
+    <string name="title_tilt_subtitle">Shaders • Particles • Physics • Gestures</string>
     <string name="title_tilt_main_title">✨ Cosmic Flow ✨</string>
-    <string name="control_overlay_info_text">Toque para ONDAS ESPECTACULARES • Arrastra para atraer • Partículas: %d</string>
+    <string name="control_overlay_info_text">Tap for SPECTACULAR WAVES • Drag to attract • Particles: %d</string>
+
+    <!-- Accessibility content descriptions -->
+    <string name="cd_particle_field">Interactive particle field with physics simulation. Drag to attract particles, tap to create burst effects.</string>
+    <string name="cd_background">Animated background with flowing visual effects</string>
+    <string name="cd_title">Cosmic Flow application title</string>
+    <string name="cd_subtitle">Application features: Shaders, Particles, Physics, and Gestures</string>
+    <string name="cd_controls_overlay">Instructions: Tap screen for spectacular wave effects, drag to attract particles. Currently showing %d particles.</string>
 </resources>
